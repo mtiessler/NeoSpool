@@ -32,6 +32,13 @@ dist/
 logs/
 *.log
 
+# Private data/scripts
+import/*.csv
+import/*.cypher
+import/*.cql
+scripts/*
+cypher/*.cypher
+
 # OS / editor
 .DS_Store
 Thumbs.db
