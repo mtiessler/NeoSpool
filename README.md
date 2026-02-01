@@ -51,21 +51,30 @@ cypher_dir: "./cypher"
 log_dir: "./logs"
 ```
 
-## Build and run
+## Docker compose
 
 ```bash
-docker build -t neospool:local .
-docker compose -f docker-compose.example.yml up
+docker compose up --build
 ```
 
-Place CSVs in `./import` and optional Cypher scripts in `./cypher`.
+This builds the importer image, starts Neo4j with APOC enabled, and runs the importer automatically.
+Place CSVs in `./import` and optional Cypher scripts in `./cypher`. Logs go to `./logs`.
+Update credentials and database name in `docker-compose.yml` if needed.
+
+### Sharing & Reproducibility
+
+To let others reproduce the import, share one of these:
+
+- Compose bundle (recommended): share the repo (or zip) with `docker-compose.yml`, `import/`, and `cypher/`. They run `docker compose up --build`.
+- Single self-contained image: bake `import/` and `cypher/` into the image at build time so running the image always imports that data.
+
+Note: an image alone does not include your CSVs unless you bake them in or mount them as volumes.
 
 ## Replication steps
 
 1) Put your `*_nodes.csv` and `*_relationships.csv` files in `import/` and any `.cypher` scripts in `cypher/`.
-2) Build the image: `docker build -t neospool:local .`
-3) Start services: `docker compose -f docker-compose.example.yml up`
-4) Check logs in `logs/` and the container output for import status.
+2) Run: `docker compose up --build`
+3) Check logs in `logs/` and the container output for import status.
 
 ## Notes
 
