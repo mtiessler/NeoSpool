@@ -1,0 +1,37 @@
+services:
+  neo4j:
+    image: neo4j:5.latest
+    environment:
+      - NEO4J_AUTH=neo4j/neo4j
+      - NEO4J_PLUGINS=["apoc"]
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+      - neo4j_plugins:/plugins
+
+  importer:
+    image: neospool:local
+    environment:
+      - NEO4J_URI=bolt://neo4j:7687
+      - NEO4J_USER=neo4j
+      - NEO4J_PASSWORD=neo4j
+      - NEO4J_DATABASE=neo4j
+      - IMPORT_DIR=/data/import
+      - CYPHER_DIR=/data/cypher
+      - LOG_DIR=/data/logs
+    volumes:
+      - ./import:/data/import
+      - ./cypher:/data/cypher
+      - ./logs:/data/logs
+    depends_on:
+      neo4j:
+        condition: service_started
+    restart: "no"
+
+volumes:
+  neo4j_data:
+  neo4j_logs:
+  neo4j_plugins:
