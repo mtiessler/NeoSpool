@@ -34,6 +34,23 @@ Optional schema hints:
   - JSON mapping of node label -> `[labelA, labelB]` to attach two labels
   - Example: `{"OrgUnit": ["OrgUnit", "Institution"]}`
 
+## config.yaml (optional)
+
+You can place a `config.yaml` in the repo root (or set `CONFIG_PATH`) instead of exporting env vars.
+Environment variables still override values from the file.
+
+Example (see `config.yaml.example`):
+
+```yaml
+neo4j_uri: "bolt://localhost:7687"
+neo4j_user: "neo4j"
+neo4j_password: "your_password"
+neo4j_database: "neo4j"
+import_dir: "./import"
+cypher_dir: "./cypher"
+log_dir: "./logs"
+```
+
 ## Build and run
 
 ```bash
